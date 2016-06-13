@@ -132,7 +132,7 @@ abstract class DbTestCase extends \PHPUnit_Framework_TestCase
         $this->oLogger        = $oLogger ?: new NullLogger();
 
         // PHPUnit_Framework_TestCase are instantiated more than once…
-        if (! in_array($this->sDbName, self::$aBuiltDbs)) {
+        if (! array_key_exists($this->sDbName, self::$aBuiltDbs)) {
             try {
                 $this->loadSqlBuildFile($sDbBuildFile, $this->sDbUser, $this->sDbName);
             } catch (\RuntimeException $oException) {
@@ -143,7 +143,7 @@ abstract class DbTestCase extends \PHPUnit_Framework_TestCase
 
         $this->oBuiltDbPdo = $this->getNewPdoInstance($this->sDbUser, $this->sDbName);
 
-        if (! in_array($this->sDbName, self::$aBuiltDbs)) {
+        if (! array_key_exists($this->sDbName, self::$aBuiltDbs)) {
             $this->dropOldDbs($this->sDbName);
             self::$aBuiltDbs[$this->sDbName] = true;
         }
